@@ -3,7 +3,6 @@ import speech_recognition
 import pyttsx3 as tts
 import sys
 import webbrowser
-import pyaudio
 
 recognizer = speech_recognition.Recognizer()
 

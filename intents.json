@@ -1,0 +1,30 @@
+{"intents": [
+  {"tag": "greeting",
+    "patterns": ["Hey Pixel", "Hello Pixel", "Sup Pixel"],
+    "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
+  },
+  {"tag": "exit",
+    "patterns": ["cya", "See you later", "I am Leaving", "Have a Good day", "Goodbye Pixel", "see ya"],
+    "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
+  },
+  {"tag": "create_note",
+    "patterns": ["Hey Pixel, please create a new note", "Hey Pixel, new note", "Hey Pixel, create a note","Hey Pixel, I want to create a note"],
+    "responses": [""]
+  },
+  {"tag": "add_todos",
+    "patterns": ["Hey Pixel, a new to do", "Hey Pixel, add a to do to my list", "Hey Pixel, new item on my to do list"],
+    "responses": [""]
+  },
+  {"tag": "show_todos",
+    "patterns": ["Hey Pixel, show my to dos", "Hey Pixel, what are my to dos", "Hey Pixel, what is on my to do list"],
+    "responses": [""]
+  },
+  {"tag": "google_search",
+  "patterns": ["Hey Pixel, I want to search up something", "Hey Pixel, Google Search"],
+  "responses": [""]
+  },
+  {"tag": "youtube_music_tv",
+    "patterns": ["Hey Pixel, I want to listen to something", "Hey Pixel, some music please", "Hey Pixel, turn up the music", "Hey Pixel, turn on the tv", "Hey Pixel, I want to watch something", "Hey Pixel, youtube"],
+    "responses": [""]
+  }
+]}

@@ -178,39 +178,6 @@ def quit():
     sys.exit(0)
 
 
-def stack_overflow():
-    global recognizer
-
-    speaker.say("What is your problem in your code? Your search results will be searched in tags, so please simply "
-                "your answer.")
-    speaker.runAndWait()
-
-    done = False
-
-    while not done:
-        try:
-            with speech_recognition.Microphone() as mic:
-
-                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
-                audio = recognizer.listen(mic)
-
-                stack_overflow_text = recognizer.recognize_google(audio)
-                stack_overflow_text.lower()
-
-                url = "https://stackoverflow.com/questions/tagged/" + stack_overflow_text
-                webbrowser.open(url)
-                done = True
-
-                speaker.say("The website might open to a Are You A Human verification page which I cannot solve. Just "
-                            "press the button, and your answers will be found. Hope your code gets fixed!")
-                speaker.runAndWait()
-
-        except speech_recognition.UnknownValueError:
-            recognizer = speech_recognition.Recognizer()
-            speaker.say("I did not understand. Please try again!")
-            speaker.runAndWait()
-
-
 mappings = {
     "greeting": hello,
     "create_note": create_note,
@@ -218,8 +185,7 @@ mappings = {
     "show_todos": show_todos,
     "google_search": google_search,
     "youtube_music_tv": youtube_music_tv,
-    "exit": quit,
-    "stack_overflow": stack_overflow
+    "exit": quit
 }
 
 assistant = GenericAssistant('intents.json', intent_methods=mappings)

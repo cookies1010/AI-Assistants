@@ -3,6 +3,7 @@ import speech_recognition
 import pyttsx3 as tts
 import sys
 import webbrowser
+import datetime
 
 recognizer = speech_recognition.Recognizer()
 
@@ -172,6 +173,66 @@ def youtube_music_tv():
             speaker.runAndWait()
 
 
+def time():
+    global recognizer
+
+    speaker.say("The time is: ")
+
+    done = False
+
+    while not done:
+        try:
+            with speech_recognition.Microphone() as mic:
+
+                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                audio = recognizer.listen(mic)
+
+                time = recognizer.recognize_google(audio)
+                time.lower()
+
+                now = datetime.datetime.now()
+                formatted_time = now.strftime("%I:%M %p")
+                done = True
+
+                speaker.say(formatted_time)
+                speaker.runAndWait()
+
+        except speech_recognition.UnknownValueError:
+            recognizer = speech_recognition.Recognizer()
+            speaker.say("I did not understand. Please try again!")
+            speaker.runAndWait()
+
+
+def date():
+    global recognizer
+
+    speaker.say("The date is: ")
+
+    done = False
+
+    while not done:
+        try:
+            with speech_recognition.Microphone() as mic:
+
+                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                audio = recognizer.listen(mic)
+
+                date = recognizer.recognize_google(audio)
+                date.lower()
+
+                now = datetime.datetime.now()
+                formatted_date = now.strftime("%A, %B %d, %Y")
+                done = True
+
+                speaker.say(formatted_date)
+                speaker.runAndWait()
+
+        except speech_recognition.UnknownValueError:
+            recognizer = speech_recognition.Recognizer()
+            speaker.say("I did not understand. Please try again!")
+            speaker.runAndWait()
+
+
 def quit():
     speaker.say('Goodbye, see you very soon!')
     speaker.runAndWait()
@@ -185,7 +246,9 @@ mappings = {
     "show_todos": show_todos,
     "google_search": google_search,
     "youtube_music_tv": youtube_music_tv,
-    "exit": quit
+    "exit": quit,
+    "time": time,
+    "date": date
 }
 
 assistant = GenericAssistant('intents.json', intent_methods=mappings)

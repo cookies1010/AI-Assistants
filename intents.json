@@ -26,5 +26,15 @@
   {"tag": "youtube_music_tv",
     "patterns": ["Hey Pixel, I want to listen to something", "Hey Pixel, some music please", "Hey Pixel, turn up the music", "Hey Pixel, turn on the tv", "Hey Pixel, I want to watch something", "Hey Pixel, youtube"],
     "responses": [""]
+  },
+  {
+    "tag": "time",
+    "patterns": ["Hey Pixel, what is the time", "Hey Pixel, time", "Hey Pixel, can you tell me the time please", "Hey Pixel, tell me the time"],
+    "responses": [""]
+  },
+  {
+    "tag": "date",
+    "patterns": ["Hey Pixel, what's the date", "Hey Pixel, what day is it today", "Hey Pixel, tell me the date", "Hey Pixel, can you tell me the date please", "Hey Pixel, date"],
+    "responses": [""]
   }
 ]}

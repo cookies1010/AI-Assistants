@@ -28,13 +28,18 @@
     "responses": [""]
   },
   {
-    "tag": "time",
+    "tag": "clock",
     "patterns": ["Hey Pixel, what is the time", "Hey Pixel, time", "Hey Pixel, can you tell me the time please", "Hey Pixel, tell me the time"],
     "responses": [""]
   },
   {
     "tag": "date",
     "patterns": ["Hey Pixel, what's the date", "Hey Pixel, what day is it today", "Hey Pixel, tell me the date", "Hey Pixel, can you tell me the date please", "Hey Pixel, date"],
+    "responses": [""]
+  },
+  {
+    "tag": "stopwatch",
+    "patterns": ["Hey Pixel, time me", "Hey Pixel, start a stopwatch", "Hey Pixel, can you start a stopwatch please"],
     "responses": [""]
   }
 ]}

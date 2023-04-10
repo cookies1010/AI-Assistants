@@ -255,7 +255,8 @@ def stopwatch():
                 stopwatch = recognizer.recognize_google(audio)
                 stopwatch.lower()
 
-                speaker.say("The App has been opened, all you have to do is press the start button.")
+                speaker.say("The App has been opened, all you have to do is press the start button. To talk to me, "
+                            "close the stopwatch app.")
                 speaker.runAndWait()
 
                 # Start of Stopwatch App code
@@ -354,4 +355,3 @@ while True:
         assistant.request(message)
     except speech_recognition.UnknownValueError:
         recognizer = speech_recognition.Recognizer()
-        

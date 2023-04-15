@@ -5,7 +5,10 @@ import sys
 import webbrowser
 import datetime
 import tkinter as tk
+from tkinter import *
 import time
+import winsound
+from threading import *
 
 recognizer = speech_recognition.Recognizer()
 
@@ -240,7 +243,7 @@ def date():
 def stopwatch():
     global recognizer
 
-    speaker.say("Opening stopwatch app")
+    speaker.say("Opening Stopwatch App")
 
     done = False
 
@@ -311,6 +314,7 @@ def stopwatch():
 
                 done = True
 
+                speaker.say("Hello what can I do for you?")
                 speaker.runAndWait()
 
         except speech_recognition.UnknownValueError:
@@ -325,6 +329,207 @@ def quit():
     sys.exit(0)
 
 
+def timer():
+    global recognizer
+
+    speaker.say("Opening Timer App")
+
+    done = False
+
+    while not done:
+        try:
+
+            with speech_recognition.Microphone() as mic:
+
+                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                audio = recognizer.listen(mic)
+
+                timer = recognizer.recognize_google(audio)
+                timer.lower()
+
+                speaker.say("The app has opened. Setting the timer will make you set it in seconds. "
+                            "Just press the start button after that, and it will start. After it has ended, "
+                            "it will beep for a little bit letting you know that it is over. If you want to talk to me,"
+                            "just close the app.")
+                speaker.runAndWait()
+
+                # Start of Timer App
+
+                class TimerApp:
+                    def __init__(self, master):
+                        self.master = master
+                        self.seconds = tk.IntVar(value=60)
+                        self.is_running = False
+
+                        self.label = tk.Label(self.master,
+                                              text=f"{self.seconds.get() // 60:02d}:{self.seconds.get() % 60:02d}",
+                                              font=("Arial", 30))
+                        self.label.pack()
+
+                        self.spin_box = tk.Spinbox(self.master, from_=0, to=3600, increment=60,
+                                                   textvariable=self.seconds,
+                                                   font=("Arial", 20))
+                        self.spin_box.pack()
+
+                        self.start_button = tk.Button(self.master, text="Start", command=self.start_timer)
+                        self.start_button.pack(side=tk.LEFT, padx=10)
+
+                        self.stop_button = tk.Button(self.master, text="Stop", command=self.stop_timer,
+                                                     state=tk.DISABLED)
+                        self.stop_button.pack(side=tk.RIGHT, padx=10)
+
+                    def start_timer(self):
+                        self.is_running = True
+                        self.start_button.config(state=tk.DISABLED)
+                        self.stop_button.config(state=tk.NORMAL)
+
+                        while self.seconds.get() > 0 and self.is_running:
+                            minutes, seconds = divmod(self.seconds.get(), 60)
+                            time_str = f"{minutes:02d}:{seconds:02d}"
+                            self.label.config(text=time_str)
+
+                            self.master.update()
+                            time.sleep(1)
+                            self.seconds.set(self.seconds.get() - 1)
+
+                        self.stop_timer()
+                        self.play_sound()
+
+                    def stop_timer(self):
+                        self.is_running = False
+                        self.start_button.config(state=tk.NORMAL)
+                        self.stop_button.config(state=tk.DISABLED)
+
+                    def play_sound(self):
+                        frequency = 1000
+                        duration = 1000
+                        winsound.Beep(frequency, duration)
+
+                root = tk.Tk()
+                app = TimerApp(root)
+                root.mainloop()
+
+                # End of Timer App
+
+                done = True
+
+                speaker.say("Hello, what can I do for you?")
+                speaker.runAndWait()
+
+        except speech_recognition.UnknownValueError:
+            recognizer = speech_recognition.Recognizer()
+            speaker.say("I did not understand. Please try again!")
+            speaker.runAndWait()
+
+
+def alarm():
+    global recognizer
+
+    speaker.say("Opening Alarm App")
+
+    done = False
+
+    while not done:
+        try:
+
+            with speech_recognition.Microphone() as mic:
+
+                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                audio = recognizer.listen(mic)
+
+                alarm = recognizer.recognize_google(audio)
+                alarm.lower()
+
+                speaker.say("The app has opened.It will have boxes where you can put the time you want to wake "
+                            "up in. Just press the Set Alarm button to start your alarm. Info will be displayed in "
+                            "the text box below for time. To talk to me, just close the app.")
+                speaker.runAndWait()
+
+                # Start of Alarm App
+
+                root = Tk()
+                root.geometry("400x200")
+
+                def Threading():
+                    t1 = Thread(target=alarm2)
+                    t1.start()
+
+                def alarm2():
+                    while True:
+
+                        set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
+
+                        time.sleep(1)
+
+                        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+                        print(current_time, set_alarm_time)
+
+                        if current_time == set_alarm_time:
+                            print("Time to Wake up")
+                            # Playing sound
+                            winsound.PlaySound("sound.wav", winsound.SND_ASYNC)
+
+                Label(root, text="Alarm Clock", font="Helvetica 20 bold", fg="red").pack(pady=10)
+                Label(root, text="Set Time", font="Helvetica 15 bold").pack()
+
+                frame = Frame(root)
+                frame.pack()
+
+                hour = StringVar(root)
+                hours = ('00', '01', '02', '03', '04', '05', '06', '07',
+                         '08', '09', '10', '11', '12', '13', '14', '15',
+                         '16', '17', '18', '19', '20', '21', '22', '23', '24'
+                         )
+                hour.set(hours[0])
+
+                hrs = OptionMenu(frame, hour, *hours)
+                hrs.pack(side=LEFT)
+
+                minute = StringVar(root)
+                minutes = ('00', '01', '02', '03', '04', '05', '06', '07',
+                           '08', '09', '10', '11', '12', '13', '14', '15',
+                           '16', '17', '18', '19', '20', '21', '22', '23',
+                           '24', '25', '26', '27', '28', '29', '30', '31',
+                           '32', '33', '34', '35', '36', '37', '38', '39',
+                           '40', '41', '42', '43', '44', '45', '46', '47',
+                           '48', '49', '50', '51', '52', '53', '54', '55',
+                           '56', '57', '58', '59', '60')
+                minute.set(minutes[0])
+
+                mins = OptionMenu(frame, minute, *minutes)
+                mins.pack(side=LEFT)
+
+                second = StringVar(root)
+                seconds = ('00', '01', '02', '03', '04', '05', '06', '07',
+                           '08', '09', '10', '11', '12', '13', '14', '15',
+                           '16', '17', '18', '19', '20', '21', '22', '23',
+                           '24', '25', '26', '27', '28', '29', '30', '31',
+                           '32', '33', '34', '35', '36', '37', '38', '39',
+                           '40', '41', '42', '43', '44', '45', '46', '47',
+                           '48', '49', '50', '51', '52', '53', '54', '55',
+                           '56', '57', '58', '59', '60')
+                second.set(seconds[0])
+
+                secs = OptionMenu(frame, second, *seconds)
+                secs.pack(side=LEFT)
+
+                Button(root, text="Set Alarm", font="Helvetica 15", command=Threading).pack(pady=20)
+
+                root.mainloop()
+
+                # End of Alarm App
+
+                done = True
+
+                speaker.say("Hello, what can I do for you?")
+                speaker.runAndWait()
+
+        except speech_recognition.UnknownValueError:
+            recognizer = speech_recognition.Recognizer()
+            speaker.say("I did not understand. Please try again!")
+            speaker.runAndWait()
+
+
 mappings = {
     "greeting": hello,
     "create_note": create_note,
@@ -335,7 +540,9 @@ mappings = {
     "exit": quit,
     "clock": clock,
     "date": date,
-    "stopwatch": stopwatch
+    "stopwatch": stopwatch,
+    "timer": timer,
+    "alarm": alarm
 }
 
 assistant = GenericAssistant('intents.json', intent_methods=mappings)

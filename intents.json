@@ -41,5 +41,15 @@
     "tag": "stopwatch",
     "patterns": ["Hey Pixel, time me", "Hey Pixel, start a stopwatch", "Hey Pixel, can you start a stopwatch please"],
     "responses": [""]
+  },
+  {
+    "tag": "timer",
+    "patterns": ["Hey Pixel, can you start a timer please", "Hey Pixel, can you start a timer for me", "Hey Pixel, timer", "Hey Pixel, set a timer"],
+    "responses": [""]
+  },
+  {
+    "tag": "alarm",
+    "patterns": ["Hey Pixel, can you set an alarm for me please", "Hey Pixel, alarm", "Hey Pixel, I need to wake up early", "Hey Pixel, set an alarm"],
+    "responses": [""]
   }
 ]}

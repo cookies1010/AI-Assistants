@@ -51,5 +51,10 @@
     "tag": "alarm",
     "patterns": ["Hey Pixel, can you set an alarm for me please", "Hey Pixel, alarm", "Hey Pixel, I need to wake up early", "Hey Pixel, set an alarm"],
     "responses": [""]
+  },
+  {
+    "tag": "weather",
+    "patterns": ["Hey Pixel, what's the weather", "Hey Pixel, can you search the weather", "Hey Pixel, weather", "Hey Pixel, can you tell me the weather"]
+    "responses": [""]
   }
 ]}

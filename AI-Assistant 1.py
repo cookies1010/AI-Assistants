@@ -9,6 +9,7 @@ from tkinter import *
 import time
 import winsound
 from threading import *
+import requests
 
 recognizer = speech_recognition.Recognizer()
 
@@ -530,6 +531,86 @@ def alarm():
             speaker.runAndWait()
 
 
+def weather():
+    global recognizer
+
+    speaker.say("Opening Weather App")
+
+    done = False
+
+    while not done:
+        try:
+
+            with speech_recognition.Microphone() as mic:
+
+                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                audio = recognizer.listen(mic)
+
+                weather = recognizer.recognize_google(audio)
+                weather.lower()
+
+                speaker.say("The app has just opened. It will have a text box where you"
+                            "can type the city name to get the weather. If you want to "
+                            "talk to me, just close the app.")
+                speaker.runAndWait()
+
+                # Start of Weather App
+
+                def getweather(canvas):
+                    city = textField.get()
+                    api = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid" \
+                                                                                        "=15b94c57aa5ae2b8bcb8fb"
+                    "22cd1c9d9c"
+
+                    json_data = requests.get(api).json()
+                    condition = json_data['weather'][0]['main']
+                    temp = int(json_data['main']['temp'] * 1.8 - 459.67)
+                    min_temp = int(json_data['main']['temp_min'] * 1.8 - 459.67)
+                    max_temp = int(json_data['main']['temp_max'] * 1.8 - 459.67)
+                    pressure = json_data['main']['pressure']
+                    humidity = json_data['main']['humidity']
+                    wind = json_data['wind']['speed']
+                    sunrise = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunrise'] - 21600))
+                    sunset = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunset'] - 21600))
+
+                    final_info = condition + "\n" + str(temp) + "°F"
+                    final_data = "\n" + "Min Temp: " + str(min_temp) + "°F" + "\n" + "Max Temp: " + str(
+                        max_temp) + "°F" + "\n" + "Pressure: " + str(pressure) + "\n" + "Humidity: " + str(
+                        humidity) + "\n" + "Wind Speed: " + str(
+                        wind) + "\n" + "Sunrise: " + sunrise + "\n" + "Sunset: " + sunset
+                    label1.config(text=final_info)
+                    label2.config(text=final_data)
+
+                canvas = tk.Tk()
+                canvas.geometry("600x500")
+                canvas.title("Weather App")
+                f = ("poppins", 15, "bold")
+                t = ("poppins", 35, "bold")
+
+                textField = tk.Entry(canvas, justify='center', width=20, font=t)
+                textField.pack(pady=20)
+                textField.focus()
+                textField.bind('<Return>', getweather)
+
+                label1 = tk.Label(canvas, font=t)
+                label1.pack()
+                label2 = tk.Label(canvas, font=f)
+                label2.pack()
+                canvas.mainloop()
+
+                # End of Weather App
+
+                done = True
+
+                speaker.say("Hello, what can I do for you?")
+                speaker.runAndWait()
+
+        except speech_recognition.UnknownValueError:
+            recognizer = speech_recognition.Recognizer()
+            speaker.say("I did not understand. Please try again!")
+            speaker.runAndWait()
+
+
 mappings = {
     "greeting": hello,
     "create_note": create_note,
@@ -542,7 +623,8 @@ mappings = {
     "date": date,
     "stopwatch": stopwatch,
     "timer": timer,
-    "alarm": alarm
+    "alarm": alarm,
+    "weather": weather
 }
 
 assistant = GenericAssistant('intents.json', intent_methods=mappings)

@@ -531,7 +531,7 @@ def alarm():
             speaker.runAndWait()
 
 
-def weather():
+def weather1():
     global recognizer
 
     speaker.say("Opening Weather App")
@@ -546,8 +546,8 @@ def weather():
                 recognizer.adjust_for_ambient_noise(mic, duration=0.2)
                 audio = recognizer.listen(mic)
 
-                weather = recognizer.recognize_google(audio)
-                weather.lower()
+                weather2 = recognizer.recognize_google(audio)
+                weather2.lower()
 
                 speaker.say("The app has just opened. It will have a text box where you"
                             "can type the city name to get the weather. If you want to "
@@ -624,7 +624,7 @@ mappings = {
     "stopwatch": stopwatch,
     "timer": timer,
     "alarm": alarm,
-    "weather": weather
+    "weather1": weather1
 }
 
 assistant = GenericAssistant('intents.json', intent_methods=mappings)

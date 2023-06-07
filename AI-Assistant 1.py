@@ -354,7 +354,7 @@ def timer():
                             "just close the app.")
                 speaker.runAndWait()
 
-                # Start of Timer App
+                # Start of Timer App code
 
                 class TimerApp:
                     def __init__(self, master):
@@ -410,7 +410,7 @@ def timer():
                 app = TimerApp(root)
                 root.mainloop()
 
-                # End of Timer App
+                # End of Timer App code
 
                 done = True
 
@@ -446,7 +446,7 @@ def alarm():
                             "the text box below for time. To talk to me, just close the app.")
                 speaker.runAndWait()
 
-                # Start of Alarm App
+                # Start of Alarm App code
 
                 root = Tk()
                 root.geometry("400x200")
@@ -518,7 +518,7 @@ def alarm():
 
                 root.mainloop()
 
-                # End of Alarm App
+                # End of Alarm App code
 
                 done = True
 
@@ -531,7 +531,7 @@ def alarm():
             speaker.runAndWait()
 
 
-def weather1():
+def weather():
     global recognizer
 
     speaker.say("Opening Weather App")
@@ -546,21 +546,21 @@ def weather1():
                 recognizer.adjust_for_ambient_noise(mic, duration=0.2)
                 audio = recognizer.listen(mic)
 
-                weather2 = recognizer.recognize_google(audio)
-                weather2.lower()
+                weather = recognizer.recognize_google(audio)
+                weather.lower()
 
-                speaker.say("The app has just opened. It will have a text box where you"
-                            "can type the city name to get the weather. If you want to "
-                            "talk to me, just close the app.")
+                speaker.say(
+                    'The weather app will open, and you will see '
+                    'that there will be a text box for you type the city in.'
+                    'Type the city name in and you will receive your weather, sunset and sunrise times, '
+                    'max and min temp, pressure, humidity, and your wind speed. Just close the app to talk to me.')
                 speaker.runAndWait()
 
-                # Start of Weather App
+                # Start of Weather App code
 
-                def getweather(canvas):
+                def getWeather(canvas):
                     city = textField.get()
-                    api = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid" \
-                                                                                        "=15b94c57aa5ae2b8bcb8fb"
-                    "22cd1c9d9c"
+                    api = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=15b94c57aa5ae2b8bcb8fb22cd1c9d9c"
 
                     json_data = requests.get(api).json()
                     condition = json_data['weather'][0]['main']
@@ -590,7 +590,7 @@ def weather1():
                 textField = tk.Entry(canvas, justify='center', width=20, font=t)
                 textField.pack(pady=20)
                 textField.focus()
-                textField.bind('<Return>', getweather)
+                textField.bind('<Return>', getWeather)
 
                 label1 = tk.Label(canvas, font=t)
                 label1.pack()
@@ -598,14 +598,14 @@ def weather1():
                 label2.pack()
                 canvas.mainloop()
 
-                # End of Weather App
+                # End of Weather App code
 
                 done = True
 
                 speaker.say("Hello, what can I do for you?")
                 speaker.runAndWait()
 
-        except speech_recognition.UnknownValueError:
+        except speech_recognition.UnknownValueError():
             recognizer = speech_recognition.Recognizer()
             speaker.say("I did not understand. Please try again!")
             speaker.runAndWait()
@@ -624,7 +624,7 @@ mappings = {
     "stopwatch": stopwatch,
     "timer": timer,
     "alarm": alarm,
-    "weather1": weather1
+    "weather": weather
 }
 
 assistant = GenericAssistant('intents.json', intent_methods=mappings)

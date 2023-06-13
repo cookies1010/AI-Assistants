@@ -54,7 +54,7 @@
   },
   {
     "tag": "weather",
-    "patterns": ["Hey Pixel, what's the weather", "Hey Pixel, can you search the weather", "Hey Pixel, weather", "Hey Pixel, can you tell me the weather"]
+    "patterns": ["Hey Pixel, what's the weather", "Hey Pixel, can you search the weather", "Hey Pixel, weather", "Hey Pixel, can you tell me the weather"],
     "responses": [""]
   }
 ]}
